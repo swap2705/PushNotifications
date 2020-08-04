@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "633386900064",
+    "firebase_url": "https://pushnnotifications.firebaseio.com",
+    "project_id": "pushnnotifications",
+    "storage_bucket": "pushnnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633386900064:android:41edff9f5cd77acf79c105",
+        "android_client_info": {
+          "package_name": "com.hsbc.pushnotifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633386900064-c6d83mlk5qofll87vtertfcg4t9f4fi6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcvCPKi_VLX-EIX73YQtQAwncLWA4WTjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633386900064-c6d83mlk5qofll87vtertfcg4t9f4fi6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
