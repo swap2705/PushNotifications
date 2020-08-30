@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- [START firebase_service] -->
+
+        <!-- [END firebase_service] -->
     </application>
 
 </manifest>
