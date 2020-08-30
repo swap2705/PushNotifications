@@ -17,9 +17,6 @@
             </intent-filter>
         </activity>
 
-        <!-- [START firebase_service] -->
-
-        <!-- [END firebase_service] -->
     </application>
 
 </manifest>
