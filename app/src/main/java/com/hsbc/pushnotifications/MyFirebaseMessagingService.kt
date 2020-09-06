@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -23,6 +24,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
     // [START receive_message]
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // [START_EXCLUDE]
         // There are two types of messages data messages and notification messages. Data messages are handled
@@ -37,7 +39,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: ${remoteMessage.from}")
-
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
@@ -54,6 +55,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
+            Log.d(TAG, "Message Notification Title: ${it.title}")
+            val title = it?.title
+            val body = it?.body
+
+            val channelId = getString(R.string.default_notification_channel_id)
+            val builder = NotificationCompat.Builder(this,channelId)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_HIGH).build();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationManager = getSystemService(NotificationManager::class.java)
+                notificationManager.notify(2332,builder)
+            }
+
+
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -143,6 +161,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
 
-        private const val TAG = "MyFirebaseMsgService"
+        const val TAG = "FCMMsgService"
     }
 }
