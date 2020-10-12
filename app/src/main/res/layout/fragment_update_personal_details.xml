@@ -1,62 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addBeneficiaryId"
+    android:id="@+id/updatePersonalDetailsFragmentId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransferFragment">
+    tools:context=".UpdatePersonalDetailsFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
+
     <EditText
-        android:id="@+id/payeeName"
+        android:id="@+id/emailId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Beneficiary Name"
+        android:text="emailid@gmail.com"
+        android:hint="Email ID"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/accountNumber"
+        android:id="@+id/phoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:ems="10"
-        android:hint="Account Number"
-        android:inputType="textPersonName" />
+        android:text="1234567890"
+        android:hint="Phone number"
+        android:inputType="number" />
 
     <EditText
-        android:id="@+id/bankName"
+        android:id="@+id/residentCountry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:hint="Bank Name"
+        android:hint="Residence country"
+        android:text="Residence country"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/bankAddress"
+        android:id="@+id/residentCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
         android:ems="10"
-        android:hint="Bank Address"
+        android:hint="Residence city"
+        android:text="Residence city"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/bankCode"
+        android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="290dp"
         android:ems="10"
-        android:hint="Bank Code/IFSC code"
+        android:hint="Address"
+        android:text="Address"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/pinCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+        android:ems="10"
+        android:hint="Pin Code"
+        android:text="123456"
         android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/buttonAddPayee"
+        android:id="@+id/buttonUpdateDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Add beneficiary" />
+        android:text="Update Details" />
 </FrameLayout>
