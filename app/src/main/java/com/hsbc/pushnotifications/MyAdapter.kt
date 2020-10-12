@@ -17,7 +17,7 @@ class MyAdapter(private val myContext: Context, fm: FragmentManager, internal va
                 return AddBeneficiaryFragment()
             }
             2 -> {
-                return GetBalanceUpdateFragment()
+                return UpdatePersonalDetailsFragment()
             }
             else -> throw IllegalStateException("position is invalid for this viewpager")
         }

@@ -32,7 +32,7 @@
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="tab_text_1">Make a payment</string>
     <string name="tab_text_2">Add a beneficiary</string>
-    <string name="tab_text_3">Get balance update</string>
+    <string name="tab_text_3">Update Personal Details</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
