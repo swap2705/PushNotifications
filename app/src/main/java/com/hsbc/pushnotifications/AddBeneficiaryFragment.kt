@@ -1,5 +1,6 @@
 package com.hsbc.pushnotifications
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_add_beneficiary.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,6 +47,7 @@ class AddBeneficiaryFragment : Fragment() {
 
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -97,7 +97,7 @@ class AddBeneficiaryFragment : Fragment() {
                 val dateFormatter: DateFormat = SimpleDateFormat("dd-MM-yyyy")
                 dateFormatter.isLenient = false
                 val today: String = dateFormatter.format(Date())
-                val addPayeeRequest: AddPayee = AddPayee()
+                val addPayeeRequest = AddPayee()
                 addPayeeRequest.benfAccountNumber = accountNumber.text.toString()
                 addPayeeRequest.benfName = payeeName.text.toString()
                 addPayeeRequest.date = today
@@ -113,7 +113,7 @@ class AddBeneficiaryFragment : Fragment() {
                     ).show()
                 } else {
                     //Call service here
-                    addPayee(addPayeeRequest);
+                    addPayee(addPayeeRequest)
                 }
             }
         }
@@ -143,17 +143,13 @@ class AddBeneficiaryFragment : Fragment() {
         private const val TAG = "AddPayeeFragment"
     }
 
-    fun addPayee(addPayeeRequest: AddPayee){
+    private fun addPayee(addPayeeRequest: AddPayee){
         val BASE_URL = "http://3.221.110.55:8081/"
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(getHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val gson = GsonBuilder()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-            .create()
-
 
         val apiService: ApiInterface = retrofit.create(
             ApiInterface::class.java

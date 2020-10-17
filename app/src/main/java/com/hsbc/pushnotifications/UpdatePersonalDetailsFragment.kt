@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_transfer.*
-import kotlinx.android.synthetic.main.fragment_transfer.fromAccountNumber
 import kotlinx.android.synthetic.main.fragment_update_personal_details.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +53,6 @@ class UpdatePersonalDetailsFragment : Fragment() {
             val sharedPreferences =
                 activity?.getSharedPreferences("sharedpreference", Context.MODE_PRIVATE)
             val deviceId = sharedPreferences?.getString("instance_token", "default")
-            val request = JSONObject()
             if (emailId.text.isNullOrBlank() || phoneNo.text.isNullOrBlank() ||
                 country.text.isNullOrBlank() || city.text.isNullOrBlank() ||
                 pinCode.text.isNullOrBlank() || address.text.isNullOrBlank()
@@ -61,16 +63,15 @@ class UpdatePersonalDetailsFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                request.put("emailId", emailId.text)
-                request.put("phoneNo", phoneNo.text)
-                request.put("country", country.text)
-                request.put("city", city.text)
-                request.put("pinCode", pinCode.text)
-                request.put("address", address.text)
-                request.put("custId", "testCustId123456")
-                request.put("deviceId", deviceId)
-                val header = JSONObject()
-                header.put("X-Device-Token", deviceId)
+                val updatePersonalDetails = UpdatePersonalDetails()
+                updatePersonalDetails.emailId = emailId.text.toString()
+                updatePersonalDetails.phoneNo = phoneNo.text.toString()
+                updatePersonalDetails.country = country.text.toString()
+                updatePersonalDetails.city = city.text.toString()
+                updatePersonalDetails.pinCode = pinCode.text.toString()
+                updatePersonalDetails.address =  address.text.toString()
+                updatePersonalDetails.custId = "testCustId123456"
+                updatePersonalDetails.deviceId = deviceId
                 if (deviceId == "default") {
                     Toast.makeText(
                         activity,
@@ -78,12 +79,8 @@ class UpdatePersonalDetailsFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(
-                        activity,
-                        "Request: $request" + "Header: $header",
-                        Toast.LENGTH_LONG
-                    ).show()
                     //Call service here
+                    updatePersonalDetails(updatePersonalDetails)
                 }
             }
         }
@@ -108,5 +105,49 @@ class UpdatePersonalDetailsFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun updatePersonalDetails(updatePersonalDetails: UpdatePersonalDetails){
+        val BASE_URL = "http://3.221.110.55:8081/"
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(getHttpClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService: ApiInterface = retrofit.create(
+            ApiInterface::class.java
+        )
+        updatePersonalDetails.deviceId?.let {
+            apiService.updatePersonalDetails(updatePersonalDetails, it)?.enqueue(object : Callback<Void> {
+                override fun onResponse(
+                    call: Call<Void?>?,
+                    response: Response<Void?>
+                ) {
+                    val statusCode: Int = response.code()
+                    Toast.makeText(
+                        activity,
+                        "Response code: $statusCode",
+                        Toast.LENGTH_LONG
+                    )
+                }
+
+                override fun onFailure(call: Call<Void?>?, th: Throwable?) {
+                    // Log error here since request failed
+                    th?.printStackTrace()
+                }
+            })
+        }
+    }
+
+    fun getHttpClient(): OkHttpClient? {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+
+        //TODO : remove logging interceptors as it is to be used for development purpose
+        return OkHttpClient.Builder()
+            .connectTimeout(300, TimeUnit.SECONDS)
+            .readTimeout(300, TimeUnit.SECONDS).addInterceptor(logging).build()
     }
 }

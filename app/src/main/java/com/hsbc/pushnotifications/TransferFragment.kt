@@ -10,10 +10,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_transfer.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,7 +61,6 @@ class TransferFragment : Fragment() {
             val sharedPreferences =
                 activity?.getSharedPreferences("sharedpreference", Context.MODE_PRIVATE)
             val deviceId = sharedPreferences?.getString("instance_token", "default")
-            val request = JSONObject()
             if (fromAccountNumber.text.isNullOrBlank() || benfName.text.isNullOrBlank() ||
                 toAccountNumber.text.isNullOrBlank() || amount.text.isNullOrBlank() ||
                 currency.text.isNullOrBlank() || name.text.isNullOrBlank()
@@ -64,17 +71,16 @@ class TransferFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                request.put("fromAccountNumber", fromAccountNumber.text)
-                request.put("benfName", benfName.text)
-                request.put("date", today)
-                request.put("toAccountNumber", toAccountNumber.text)
-                request.put("amount", amount.text)
-                request.put("currency", currency.text)
-                request.put("name", name.text)
-                request.put("custId", "testCustId123456")
-                request.put("deviceId", deviceId)
-                val header = JSONObject()
-                header.put("X-Device-Token", deviceId)
+                val transfer = Transfer()
+                transfer.fromAccountNumber = fromAccountNumber.text.toString()
+                transfer.benfName = benfName.text.toString()
+                transfer.date = today.toString()
+                transfer.toAccountNumber = toAccountNumber.text.toString()
+                transfer.amount = amount.text.toString()
+                transfer.currency = currency.text.toString()
+                transfer.name= name.text.toString()
+                transfer.custId = "testCustId123456"
+                transfer.deviceId = deviceId
                 if (deviceId == "default") {
                     Toast.makeText(
                         activity,
@@ -82,12 +88,8 @@ class TransferFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(
-                        activity,
-                        "Request: $request" + "Header: $header",
-                        Toast.LENGTH_LONG
-                    ).show()
                     //Call service here
+                    transfer(transfer)
                 }
             }
         }
@@ -112,5 +114,49 @@ class TransferFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private fun transfer(transfer: Transfer){
+        val BASE_URL = "http://3.221.110.55:8081/"
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(getHttpClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val apiService: ApiInterface = retrofit.create(
+            ApiInterface::class.java
+        )
+        transfer.deviceId?.let {
+            apiService.transfer(transfer , it)?.enqueue(object : Callback<Void> {
+                override fun onResponse(
+                    call: Call<Void?>?,
+                    response: Response<Void?>
+                ) {
+                    val statusCode: Int = response.code()
+                    Toast.makeText(
+                        activity,
+                        "Response code: $statusCode",
+                        Toast.LENGTH_LONG
+                    )
+                }
+
+                override fun onFailure(call: Call<Void?>?, th: Throwable?) {
+                    // Log error here since request failed
+                    th?.printStackTrace()
+                }
+            })
+        }
+    }
+
+    fun getHttpClient(): OkHttpClient? {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+
+        //TODO : remove logging interceptors as it is to be used for development purpose
+        return OkHttpClient.Builder()
+            .connectTimeout(300, TimeUnit.SECONDS)
+            .readTimeout(300, TimeUnit.SECONDS).addInterceptor(logging).build()
     }
 }
