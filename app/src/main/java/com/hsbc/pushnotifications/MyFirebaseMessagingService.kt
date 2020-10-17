@@ -10,6 +10,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.text.toSpanned
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -64,6 +65,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setStyle(NotificationCompat.BigTextStyle()
+                    .bigText(body?.toSpanned()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH).build();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
