@@ -2,17 +2,26 @@ package com.hsbc.pushnotifications
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_add_beneficiary.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,32 +80,31 @@ class AddBeneficiaryFragment : Fragment() {
 
         val btnAddPayee = t.findViewById<Button>(R.id.buttonAddPayee)
         btnAddPayee.setOnClickListener {
-            Log.d(TAG, "Inside button click")
             val sharedPreferences = activity?.getSharedPreferences(
                 "sharedpreference",
                 Context.MODE_PRIVATE
             )
             val deviceId = sharedPreferences?.getString("instance_token", "default")
-            val request =  JSONObject()
-            if(accountNumber.text.isNullOrBlank() || payeeName.text.isNullOrBlank() || payee_spinner.selectedItem.toString().isBlank() || payeeCurrency.text.isNullOrBlank()){
+            if (accountNumber.text.isNullOrBlank() || payeeName.text.isNullOrBlank() || payee_spinner.selectedItem.toString()
+                    .isBlank() || payeeCurrency.text.isNullOrBlank()
+            ) {
                 Toast.makeText(
                     activity,
                     "Please fill all the fields to add payee",
                     Toast.LENGTH_LONG
                 ).show()
-            }else {
+            } else {
                 val dateFormatter: DateFormat = SimpleDateFormat("dd-MM-yyyy")
                 dateFormatter.isLenient = false
                 val today: String = dateFormatter.format(Date())
-                request.put("benfAccountNumber", accountNumber.text)
-                request.put("benfName", payeeName.text)
-                request.put("date",today)
-                request.put("currency", payeeCurrency.text)
-                request.put("custId", "testCustId123456")
-                request.put("benfType", payee_spinner.selectedItem.toString())
-                request.put("deviceId", deviceId)
-                val header = JSONObject()
-                header.put("X-Device-Token", deviceId)
+                val addPayeeRequest: AddPayee = AddPayee()
+                addPayeeRequest.benfAccountNumber = accountNumber.text.toString()
+                addPayeeRequest.benfName = payeeName.text.toString()
+                addPayeeRequest.date = today
+                addPayeeRequest.currency = payeeCurrency.text.toString()
+                addPayeeRequest.custId = "testCustId123456"
+                addPayeeRequest.benfType = payee_spinner.selectedItem.toString()
+                addPayeeRequest.deviceId = deviceId
                 if (deviceId == "default") {
                     Toast.makeText(
                         activity,
@@ -104,12 +112,8 @@ class AddBeneficiaryFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Toast.makeText(
-                        activity,
-                        "Request: $request" + "Header: $header",
-                        Toast.LENGTH_LONG
-                    ).show()
                     //Call service here
+                    addPayee(addPayeeRequest);
                 }
             }
         }
@@ -137,5 +141,53 @@ class AddBeneficiaryFragment : Fragment() {
                 }
             }
         private const val TAG = "AddPayeeFragment"
+    }
+
+    fun addPayee(addPayeeRequest: AddPayee){
+        val BASE_URL = "http://3.221.110.55:8081/"
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(getHttpClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val gson = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+            .create()
+
+
+        val apiService: ApiInterface = retrofit.create(
+            ApiInterface::class.java
+        )
+        addPayeeRequest.deviceId?.let {
+            apiService.addPayee(addPayeeRequest, it)?.enqueue(object : Callback<Void> {
+                override fun onResponse(
+                    call: Call<Void?>?,
+                    response: Response<Void?>
+                ) {
+                    val statusCode: Int = response.code()
+                    Toast.makeText(
+                        activity,
+                        "Response code: $statusCode",
+                        Toast.LENGTH_LONG
+                    )
+                }
+
+                override fun onFailure(call: Call<Void?>?, th: Throwable?) {
+                    // Log error here since request failed
+                    th?.printStackTrace()
+                }
+            })
+        }
+    }
+
+    fun getHttpClient(): OkHttpClient? {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+
+        //TODO : remove logging interceptors as it is to be used for development purpose
+        return OkHttpClient.Builder()
+            .connectTimeout(300, TimeUnit.SECONDS)
+            .readTimeout(300, TimeUnit.SECONDS).addInterceptor(logging).build()
     }
 }
