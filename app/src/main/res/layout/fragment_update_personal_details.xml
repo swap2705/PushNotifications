@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:text="emailid@gmail.com"
+        android:text="testemailid@gmail.com"
         android:hint="Email ID"
         android:inputType="textPersonName" />
 
@@ -27,7 +27,7 @@
         android:layout_marginTop="80dp"
         android:ems="10"
         android:maxLength="10"
-        android:text="1234567890"
+        android:text="9843464522"
         android:hint="Phone number"
         android:inputType="number" />
 
@@ -38,7 +38,7 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Residence country"
-        android:text="Residence country"
+        android:text="India"
         android:inputType="textPersonName" />
 
     <EditText
@@ -48,7 +48,7 @@
         android:layout_marginTop="220dp"
         android:ems="10"
         android:hint="Residence city"
-        android:text="Residence city"
+        android:text="Pune"
         android:inputType="textPersonName" />
 
     <EditText
@@ -58,7 +58,7 @@
         android:layout_marginTop="290dp"
         android:ems="10"
         android:hint="Address"
-        android:text="Address"
+        android:text="Kalyani Nagar"
         android:inputType="textPersonName" />
 
     <EditText
@@ -69,7 +69,7 @@
         android:ems="10"
         android:maxLength="6"
         android:hint="Pin Code"
-        android:text="123456"
+        android:text="441006"
         android:inputType="textPersonName" />
 
     <Button
