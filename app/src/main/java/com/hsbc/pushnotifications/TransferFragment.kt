@@ -1,10 +1,19 @@
 package com.hsbc.pushnotifications
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_transfer.*
+import org.json.JSONObject
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,12 +38,60 @@ class TransferFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transfer, container, false)
+        val t = inflater.inflate(R.layout.fragment_transfer, container, false)
+        val btnAddPayee = t.findViewById<Button>(R.id.buttonTransfer)
+        val dateFormatter: DateFormat = SimpleDateFormat("dd-MM-yyyy")
+        dateFormatter.isLenient = false
+        val today: String = dateFormatter.format(Date())
+        btnAddPayee.setOnClickListener {
+            val sharedPreferences =
+                activity?.getSharedPreferences("sharedpreference", Context.MODE_PRIVATE)
+            val deviceId = sharedPreferences?.getString("instance_token", "default")
+            val request = JSONObject()
+            if (fromAccountNumber.text.isNullOrBlank() || benfName.text.isNullOrBlank() ||
+                toAccountNumber.text.isNullOrBlank() || amount.text.isNullOrBlank() ||
+                currency.text.isNullOrBlank() || name.text.isNullOrBlank()
+            ) {
+                Toast.makeText(
+                    activity,
+                    "Please fill all the fields to add payee",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                request.put("fromAccountNumber", fromAccountNumber.text)
+                request.put("benfName", benfName.text)
+                request.put("date", today)
+                request.put("toAccountNumber", toAccountNumber.text)
+                request.put("amount", amount.text)
+                request.put("currency", currency.text)
+                request.put("name", name.text)
+                request.put("custId", "testCustId123456")
+                request.put("deviceId", deviceId)
+                val header = JSONObject()
+                header.put("X-Device-Token", deviceId)
+                if (deviceId == "default") {
+                    Toast.makeText(
+                        activity,
+                        "Device Id not found, please clear your cache",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        activity,
+                        "Request: $request" + "Header: $header",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    //Call service here
+                }
+            }
+        }
+        return t
     }
 
     companion object {

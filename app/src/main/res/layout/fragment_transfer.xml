@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/fromAccoutNumber"
+        android:id="@+id/fromAccountNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -64,19 +64,11 @@
         android:hint="Transfer details"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:ems="10"
-        android:hint="dd/mm/yyyy"
-        android:inputType="date" />
-
     <Button
         android:id="@+id/buttonTransfer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Transfer" />
+        android:text="Quick Transfer" />
+
 </FrameLayout>

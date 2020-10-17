@@ -1,10 +1,18 @@
 package com.hsbc.pushnotifications
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
+import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_add_beneficiary.*
+import org.json.JSONObject
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +35,8 @@ class AddBeneficiaryFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
     }
 
     override fun onCreateView(
@@ -34,8 +44,79 @@ class AddBeneficiaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_beneficiary, container, false)
+        val t = inflater.inflate(R.layout.fragment_add_beneficiary, container, false)
+        val spinner = t.findViewById<Spinner>(R.id.payee_spinner)
+        val payeeArray = resources.getStringArray(R.array.payee_array)
+        spinner?.adapter = activity?.applicationContext?.let { ArrayAdapter(
+            it,
+            R.layout.support_simple_spinner_dropdown_item,
+            payeeArray
+        ) } as SpinnerAdapter
+        spinner?.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                println("erreur")
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val type = parent?.getItemAtPosition(position).toString()
+                println(type)
+            }
+
+        }
+
+        val btnAddPayee = t.findViewById<Button>(R.id.buttonAddPayee)
+        btnAddPayee.setOnClickListener {
+            Log.d(TAG, "Inside button click")
+            val sharedPreferences = activity?.getSharedPreferences(
+                "sharedpreference",
+                Context.MODE_PRIVATE
+            )
+            val deviceId = sharedPreferences?.getString("instance_token", "default")
+            val request =  JSONObject()
+            if(accountNumber.text.isNullOrBlank() || payeeName.text.isNullOrBlank() || payee_spinner.selectedItem.toString().isBlank() || payeeCurrency.text.isNullOrBlank()){
+                Toast.makeText(
+                    activity,
+                    "Please fill all the fields to add payee",
+                    Toast.LENGTH_LONG
+                ).show()
+            }else {
+                val dateFormatter: DateFormat = SimpleDateFormat("dd-MM-yyyy")
+                dateFormatter.isLenient = false
+                val today: String = dateFormatter.format(Date())
+                request.put("benfAccountNumber", accountNumber.text)
+                request.put("benfName", payeeName.text)
+                request.put("date",today)
+                request.put("currency", payeeCurrency.text)
+                request.put("custId", "testCustId123456")
+                request.put("benfType", payee_spinner.selectedItem.toString())
+                request.put("deviceId", deviceId)
+                val header = JSONObject()
+                header.put("X-Device-Token", deviceId)
+                if (deviceId == "default") {
+                    Toast.makeText(
+                        activity,
+                        "Device Id not found, please clear your cache",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        activity,
+                        "Request: $request" + "Header: $header",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    //Call service here
+                }
+            }
+        }
+        return  t
     }
+
+
 
     companion object {
         /**
@@ -55,5 +136,6 @@ class AddBeneficiaryFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+        private const val TAG = "AddPayeeFragment"
     }
 }
