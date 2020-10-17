@@ -60,7 +60,7 @@ class TransferFragment : Fragment() {
             ) {
                 Toast.makeText(
                     activity,
-                    "Please fill all the fields to add payee",
+                    "Please fill all the fields to make the transfer",
                     Toast.LENGTH_LONG
                 ).show()
             } else {

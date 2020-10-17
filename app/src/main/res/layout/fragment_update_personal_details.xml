@@ -20,17 +20,18 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/phoneNumber"
+        android:id="@+id/phoneNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:ems="10"
+        android:maxLength="10"
         android:text="1234567890"
         android:hint="Phone number"
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/residentCountry"
+        android:id="@+id/country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
@@ -40,7 +41,7 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/residentCity"
+        android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
@@ -65,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="360dp"
         android:ems="10"
+        android:maxLength="6"
         android:hint="Pin Code"
         android:text="123456"
         android:inputType="textPersonName" />
