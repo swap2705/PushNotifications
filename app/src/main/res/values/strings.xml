@@ -36,4 +36,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name="payee_array">
+        <item>Domestic Non HSBC Payee</item>
+        <item>International Non HSBC Payee</item>
+        <item>Domestic HSBC Payee</item>
+        <item>International HSBC Payee</item>
+        <item>Credit Card Payee</item>
+    </string-array>
+
 </resources>
