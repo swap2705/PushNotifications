@@ -136,9 +136,9 @@ class TransferFragment : Fragment() {
                     val statusCode: Int = response.code()
                     Toast.makeText(
                         activity,
-                        "Response code: $statusCode",
-                        Toast.LENGTH_LONG
-                    )
+                        "Your transfer request is received",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 override fun onFailure(call: Call<Void?>?, th: Throwable?) {

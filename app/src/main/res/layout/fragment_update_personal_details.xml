@@ -4,7 +4,8 @@
     android:id="@+id/updatePersonalDetailsFragmentId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdatePersonalDetailsFragment">
+    tools:context=".UpdatePersonalDetailsFragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -76,5 +77,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Update Details" />
+        android:text="Update Details"
+        android:background="@drawable/btn_shape_round"/>
 </FrameLayout>

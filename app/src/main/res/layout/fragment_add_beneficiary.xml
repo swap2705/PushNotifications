@@ -24,7 +24,7 @@
         android:layout_marginTop="80dp"
         android:ems="10"
         android:hint="Account Number"
-        android:inputType="textPersonName" />
+        android:inputType="textCapCharacters" />
 
     <EditText
         android:id="@+id/payeeCurrency"
@@ -33,7 +33,7 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Currency"
-        android:inputType="textPersonName" />
+        android:inputType="textCapCharacters" />
 
     <TextView
         android:id="@+id/payeeTypeText"
@@ -55,7 +55,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Add beneficiary" />
+        android:text="Add beneficiary"
+        android:background="@drawable/btn_shape_round"
+        />
 
 
 
