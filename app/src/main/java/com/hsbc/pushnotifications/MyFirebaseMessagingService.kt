@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.os.Vibrator
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -53,6 +54,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
 
+
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
@@ -61,10 +63,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val body = it?.body
 
             val channelId = getString(R.string.default_notification_channel_id)
+            val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vibratorService.vibrate(500)
             val builder = NotificationCompat.Builder(this,channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(body)
+                .setSound(defaultSoundUri)
                 .setStyle(NotificationCompat.BigTextStyle()
                     .bigText(body?.toSpanned()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH).build();
@@ -141,6 +147,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val channelId = getString(R.string.default_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibratorService.vibrate(500)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
                 .setContentTitle(getString(R.string.fcm_message))
