@@ -4,7 +4,8 @@
     android:id="@+id/updatePersonalDetailsFragmentId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdatePersonalDetailsFragment">
+    tools:context=".UpdatePersonalDetailsFragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -15,38 +16,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:text="emailid@gmail.com"
+        android:text="testemailid@gmail.com"
         android:hint="Email ID"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/phoneNumber"
+        android:id="@+id/phoneNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:ems="10"
-        android:text="1234567890"
+        android:maxLength="10"
+        android:text="9843464522"
         android:hint="Phone number"
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/residentCountry"
+        android:id="@+id/country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Residence country"
-        android:text="Residence country"
+        android:text="India"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/residentCity"
+        android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
         android:ems="10"
         android:hint="Residence city"
-        android:text="Residence city"
+        android:text="Pune"
         android:inputType="textPersonName" />
 
     <EditText
@@ -56,7 +58,7 @@
         android:layout_marginTop="290dp"
         android:ems="10"
         android:hint="Address"
-        android:text="Address"
+        android:text="Kalyani Nagar"
         android:inputType="textPersonName" />
 
     <EditText
@@ -65,8 +67,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="360dp"
         android:ems="10"
+        android:maxLength="6"
         android:hint="Pin Code"
-        android:text="123456"
+        android:text="441006"
         android:inputType="textPersonName" />
 
     <Button
@@ -74,5 +77,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Update Details" />
+        android:text="Update Details"
+        android:background="@drawable/btn_shape_round"/>
 </FrameLayout>

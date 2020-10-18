@@ -10,13 +10,13 @@
 
 
     <EditText
-        android:id="@+id/fromAccoutNumber"
+        android:id="@+id/fromAccountNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="From account number"
-        android:inputType="textPersonName" />
+        android:inputType="textCapCharacters" />
 
     <EditText
         android:id="@+id/benfName"
@@ -34,7 +34,7 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="To Account Number"
-        android:inputType="textPersonName" />
+        android:inputType="textCapCharacters" />
 
     <EditText
         android:id="@+id/amount"
@@ -53,7 +53,7 @@
         android:layout_marginTop="220dp"
         android:ems="10"
         android:hint="Currency"
-        android:inputType="text" />
+        android:inputType="textCapCharacters" />
 
     <EditText
         android:id="@+id/name"
@@ -64,19 +64,12 @@
         android:hint="Transfer details"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:ems="10"
-        android:hint="dd/mm/yyyy"
-        android:inputType="date" />
-
     <Button
         android:id="@+id/buttonTransfer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Transfer" />
+        android:text="Quick Transfer"
+        android:background="@drawable/btn_shape_round"/>
+
 </FrameLayout>
