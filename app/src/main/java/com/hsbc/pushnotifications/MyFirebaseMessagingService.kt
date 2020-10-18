@@ -17,6 +17,7 @@ import androidx.work.WorkManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.hsbc.pushnotifications.R
+import java.util.*
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -77,7 +78,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationManager = getSystemService(NotificationManager::class.java)
-                notificationManager.notify(2332,builder)
+                val id= Random(System.currentTimeMillis()).nextInt(1000)
+                notificationManager.notify(id,builder)
             }
 
 
