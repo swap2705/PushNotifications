@@ -1,75 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/transferFragmentId"
+    android:id="@+id/updatePersonalDetailsFragmentId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransferFragment">
+    tools:context=".UpdatePersonalDetailsFragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
 
     <EditText
-        android:id="@+id/fromAccountNumber"
+        android:id="@+id/emailId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="From account number"
-        android:inputType="textCapCharacters" />
+        android:text="testemailid@gmail.com"
+        android:hint="Email ID"
+        android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/benfName"
+        android:id="@+id/phoneNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:ems="10"
-        android:hint="Beneficiary Name"
-        android:inputType="textPersonName" />
+        android:maxLength="10"
+        android:text="9843464522"
+        android:hint="Phone number"
+        android:inputType="number" />
 
     <EditText
-        android:id="@+id/toAccountNumber"
+        android:id="@+id/country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:hint="To Account Number"
-        android:inputType="textCapCharacters" />
+        android:hint="Residence country"
+        android:text="India"
+        android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/amount"
-        android:layout_width="241dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="180dp"
-        android:layout_marginTop="220dp"
-        android:ems="10"
-        android:hint="Amount"
-        android:inputType="number" />
-
-    <EditText
-        android:id="@+id/currency"
-        android:layout_width="160dp"
+        android:id="@+id/city"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
         android:ems="10"
-        android:hint="Currency"
-        android:inputType="textCapCharacters" />
+        android:hint="Residence city"
+        android:text="Pune"
+        android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="290dp"
         android:ems="10"
-        android:hint="Transfer details"
+        android:hint="Address"
+        android:text="Kalyani Nagar"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/pinCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+        android:ems="10"
+        android:maxLength="6"
+        android:hint="Pin Code"
+        android:text="441006"
         android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/buttonTransfer"
+        android:id="@+id/buttonUpdateDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:text="Quick Transfer"
+        android:text="Update Details"
         android:background="@drawable/btn_shape_round"/>
-
 </FrameLayout>

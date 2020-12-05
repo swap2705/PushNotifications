@@ -1,6 +1,5 @@
 package com.hsbc.pushnotifications
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_transfer.*
+import kotlinx.android.synthetic.main.fragment_update_personal_details.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
@@ -18,9 +17,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,10 +26,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [TransferFragment.newInstance] factory method to
+ * Use the [UpdatePersonalDetailsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TransferFragment : Fragment() {
+class UpdatePersonalDetailsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -46,41 +42,36 @@ class TransferFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val t = inflater.inflate(R.layout.fragment_transfer, container, false)
-        val btnAddPayee = t.findViewById<Button>(R.id.buttonTransfer)
-        val dateFormatter: DateFormat = SimpleDateFormat("dd-MM-yyyy")
-        dateFormatter.isLenient = false
-        val today: String = dateFormatter.format(Date())
+        val t = inflater.inflate(R.layout.fragment_update_personal_details, container, false)
+        val btnAddPayee = t.findViewById<Button>(R.id.buttonUpdateDetails)
         btnAddPayee.setOnClickListener {
             val sharedPreferences =
                 activity?.getSharedPreferences("sharedpreference", Context.MODE_PRIVATE)
             val deviceId = sharedPreferences?.getString("instance_token", "default")
-            if (fromAccountNumber.text.isNullOrBlank() || benfName.text.isNullOrBlank() ||
-                toAccountNumber.text.isNullOrBlank() || amount.text.isNullOrBlank() ||
-                currency.text.isNullOrBlank() || name.text.isNullOrBlank()
+            if (emailId.text.isNullOrBlank() || phoneNo.text.isNullOrBlank() ||
+                country.text.isNullOrBlank() || city.text.isNullOrBlank() ||
+                pinCode.text.isNullOrBlank() || address.text.isNullOrBlank()
             ) {
                 Toast.makeText(
                     activity,
-                    "Please fill all the fields to make the transfer",
+                    "Please fill all the fields to update your details",
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                val transfer = Transfer()
-                transfer.fromAccountNumber = fromAccountNumber.text.toString()
-                transfer.benfName = benfName.text.toString()
-                transfer.date = today.toString()
-                transfer.toAccountNumber = toAccountNumber.text.toString()
-                transfer.amount = amount.text.toString()
-                transfer.currency = currency.text.toString()
-                transfer.name= name.text.toString()
-                transfer.custId = "testCustId123456"
-                transfer.deviceId = deviceId
+                val updatePersonalDetails = UpdatePersonalDetails()
+                updatePersonalDetails.emailId = emailId.text.toString()
+                updatePersonalDetails.phoneNo = phoneNo.text.toString()
+                updatePersonalDetails.country = country.text.toString()
+                updatePersonalDetails.city = city.text.toString()
+                updatePersonalDetails.pinCode = pinCode.text.toString()
+                updatePersonalDetails.address =  address.text.toString()
+                updatePersonalDetails.custId = "testCustId123456"
+                updatePersonalDetails.deviceId = deviceId
                 if (deviceId == "default") {
                     Toast.makeText(
                         activity,
@@ -89,7 +80,7 @@ class TransferFragment : Fragment() {
                     ).show()
                 } else {
                     //Call service here
-                    transfer(transfer)
+                    updatePersonalDetails(updatePersonalDetails)
                 }
             }
         }
@@ -103,12 +94,12 @@ class TransferFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment TransferFragment.
+         * @return A new instance of fragment UpdatePersonalDetailsFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            TransferFragment().apply {
+            UpdatePersonalDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -116,7 +107,7 @@ class TransferFragment : Fragment() {
             }
     }
 
-    private fun transfer(transfer: Transfer){
+    private fun updatePersonalDetails(updatePersonalDetails: UpdatePersonalDetails){
         val BASE_URL = "http://3.221.110.55:8081/"
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -127,8 +118,8 @@ class TransferFragment : Fragment() {
         val apiService: ApiInterface = retrofit.create(
             ApiInterface::class.java
         )
-        transfer.deviceId?.let {
-            apiService.transfer(transfer , it)?.enqueue(object : Callback<Void> {
+        updatePersonalDetails.deviceId?.let {
+            apiService.updatePersonalDetails(updatePersonalDetails, it)?.enqueue(object : Callback<Void> {
                 override fun onResponse(
                     call: Call<Void?>?,
                     response: Response<Void?>
@@ -136,7 +127,7 @@ class TransferFragment : Fragment() {
                     val statusCode: Int = response.code()
                     Toast.makeText(
                         activity,
-                        "Your transfer request is received",
+                        "Your request has been received",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

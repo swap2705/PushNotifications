@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addBeneficiaryId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddBeneficiaryFragment">
+    tools:context=".TransferFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <EditText
+        android:id="@+id/payeeName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Add beneficiary" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Beneficiary Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/accountNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:ems="10"
+        android:hint="Account Number"
+        android:inputType="textCapCharacters" />
+
+    <EditText
+        android:id="@+id/payeeCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="Currency"
+        android:inputType="textCapCharacters" />
+
+    <TextView
+        android:id="@+id/payeeTypeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:text="Payee Type" />
+
+    <Spinner
+        android:id="@+id/payee_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"/>
+
+    <Button
+        android:id="@+id/buttonAddPayee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:text="Add beneficiary"
+        android:background="@drawable/btn_shape_round"
+        />
+
+
 
 </FrameLayout>
