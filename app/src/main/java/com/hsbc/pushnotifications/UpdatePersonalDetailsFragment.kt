@@ -108,7 +108,7 @@ class UpdatePersonalDetailsFragment : Fragment() {
     }
 
     private fun updatePersonalDetails(updatePersonalDetails: UpdatePersonalDetails){
-        val BASE_URL = "http://3.221.110.55:8081/"
+        val BASE_URL = "http://34.198.56.180:8081/"
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(getHttpClient())

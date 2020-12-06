@@ -66,21 +66,6 @@ class MainActivity : AppCompatActivity() {
         }
         // [END handle_data_extras]
 
-        /*binding.subscribeButton.setOnClickListener {
-            Log.d(TAG, "Subscribing to weather topic")
-            // [START subscribe_topics]
-            FirebaseMessaging.getInstance().subscribeToTopic("random")
-                .addOnCompleteListener { task ->
-                    var msg = getString(R.string.msg_subscribed)
-                    if (!task.isSuccessful) {
-                        msg = getString(R.string.msg_subscribe_failed)
-                    }
-                    Log.d(TAG, msg)
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                }
-            // [END subscribe_topics]
-        }
-*/
 
         /*binding.getStarted.setOnClickListener {
             FirebaseInstanceId.getInstance().instanceId
