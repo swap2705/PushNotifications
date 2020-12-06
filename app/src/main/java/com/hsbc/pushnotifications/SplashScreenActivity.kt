@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.hsbc.pushnotifications.MainActivity
 import com.hsbc.pushnotifications.R
 
@@ -22,6 +23,18 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        FirebaseMessaging.getInstance().subscribeToTopic("PushNotification_TestTopic")
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed)
+                }
+                Log.d(TAG, msg)
+            }
+        // [END subscribe_topics]
+
+
 
         //Notification manager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
